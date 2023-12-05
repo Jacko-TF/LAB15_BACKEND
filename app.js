@@ -8,7 +8,10 @@ const config = require('./src/config/config');
 
 const connection = require('./src/database/dbController')
 
-//const user_routes = require('./src/routes/userRouter')
+//Routes
+const socio_routes = require('./src/routes/socio.routes')
+const pelicula_routes = require('./src/routes/pelicula.routes')
+const prestamo_routes = require('./src/routes/prestamo.routes')
 
 const cors = require('cors');
 
@@ -61,7 +64,7 @@ async function data(){
     })));
 }
 
-data()
+//data()
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -71,9 +74,15 @@ app.use(cors({
     origin: '*'
 }));
 
-//app.use(require('./src/controllers/authController'))
+app.use('/socio', socio_routes)
+app.use('/pelicula', pelicula_routes)
+app.use('/prestamo', prestamo_routes)
 
-//app.use('/user', user_routes)
+app.get("/",(req, res)=>{
+    res.json({
+        message: "Bienvenido"
+    })
+})
 
 async function init(){
     await app.listen(config.port, () => {
